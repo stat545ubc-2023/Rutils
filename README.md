@@ -57,7 +57,7 @@ negative but not $-\infty$.
 
 Now a more realistic example where the trick also helps. Suppose we want
 to evaluate the log pdf of a mixture model with 10 elements in the
-mixture: $\log p(x) = \log \sum_{n=1}^{10} p_n(x)$, where $p_n(x)$ is
+mixture: $\log p(x) = \log(p_1(x)+\cdots+p_{10}(x))$, where $p_n(x)$ is
 the pdf of the $n$th mixture element, which in our case is a
 Normal$(10n,0.1^2)$ distribution. Note that $p_n(x) = \exp\log p_n(x)$,
 which allows us to cast the problem in the LogSumExp trick format. Below

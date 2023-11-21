@@ -74,8 +74,52 @@
 
     
     
+<p>Welcome to <code>Rutils</code>! If you’re tired of running into
+numerical issues when doing research, or if you don’t want to keep
+rewriting your <code>utils</code> script for each new project, you’ve
+come to the right place!</p>
+<p>Just install the package and then</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stat545ubc-2023.github.io/Rutils/">Rutils</a></span><span class="op">)</span></span></code></pre></div>
+<p>at the beginning of your script.</p>
+<p><code>Rutils</code> provides vectorized and numerically-stable
+implementations of the LogSumExp, the Log1p, and the Expm1 tricks.</p>
+<div class="section level3">
+<h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h3>
+<p>Here are some quick examples, but check the function vignettes for
+more!</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_x</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># naive computation fails:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">my_x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] -Inf</span></span>
+<span></span>
+<span><span class="co"># logsumexp trick does not:</span></span>
+<span><span class="fu"><a href="../reference/logsumexp.html">logsumexp</a></span><span class="op">(</span><span class="va">my_x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] -1e+10</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_x</span> <span class="op">&lt;-</span> <span class="fl">1e-20</span></span>
+<span></span>
+<span><span class="co"># naive computation fails:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">my_x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span></span>
+<span><span class="co"># Log1p trick does not:</span></span>
+<span><span class="fu"><a href="../reference/Log1p.html">Log1p</a></span><span class="op">(</span><span class="va">my_x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1e-20</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_x</span> <span class="op">&lt;-</span> <span class="fl">1e-20</span></span>
+<span></span>
+<span><span class="co"># naive computation fails:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">my_x</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span></span>
+<span><span class="co"># Expm1 trick does not:</span></span>
+<span><span class="fu"><a href="../reference/Expm1.html">Expm1</a></span><span class="op">(</span><span class="va">my_x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1e-20</span></span></code></pre></div>
+</div>
   </main>
 </div>
 

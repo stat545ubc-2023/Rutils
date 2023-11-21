@@ -14,9 +14,53 @@ knitr::opts_chunk$set(
 )
 ```
 
+Welcome to `Rutils`!
+If you're tired of running into numerical issues when doing research,
+or if you don't want to keep rewriting your `utils` script for each new project,
+you've come to the right place!
 
-
+Just install the package and then
 ```{r setup}
 library(Rutils)
 ```
+at the beginning of your script.
 
+`Rutils` provides vectorized and numerically-stable implementations
+of the LogSumExp, the Log1p, and the Expm1 tricks.
+
+### Examples
+
+Here are some quick examples,
+but check the function vignettes for more!
+
+```{r}
+my_x <- -10^(10:20)
+
+# naive computation fails:
+log(sum(exp(my_x)))
+
+# logsumexp trick does not:
+logsumexp(my_x)
+```
+
+
+```{r}
+my_x <- 1e-20
+
+# naive computation fails:
+log(1+my_x)
+
+# Log1p trick does not:
+Log1p(my_x)
+```
+
+
+```{r}
+my_x <- 1e-20
+
+# naive computation fails:
+exp(my_x)-1
+
+# Expm1 trick does not:
+Expm1(my_x)
+```

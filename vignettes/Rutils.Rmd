@@ -1,8 +1,8 @@
 ---
-title: "logsumexp"
+title: "Rutils"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{logsumexp}
+  %\VignetteIndexEntry{Rutils}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

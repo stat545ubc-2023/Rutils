@@ -1,6 +1,6 @@
 Package: Rutils
 Title: Utility Functions For Numerically-Stable Machine Learning In R 
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: 
     person("Gian Carlo", "Diluvi", , "gian.diluvi@stat.ubc.ca", role = c("aut", "cre"))
 Description: Compute common machine learning operations in a numerically-stable fashion.

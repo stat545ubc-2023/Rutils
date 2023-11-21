@@ -15,86 +15,8 @@ knitr::opts_chunk$set(
 ```
 
 
-The [LogSumExp trick](https://en.wikipedia.org/wiki/LogSumExp)
-is a useful function to have around when working with small numbers, 
-such as probabilities.
-The idea is that $\log\sum_{n=1}^N \exp(x_n)$
-can be prone to underflow if any $x_n$ is a very large negative, 
-say in the order of $-10^{10}$.
-This seems niche but is actually pretty common when dealing with, e.g.,
-mixture models.
-In that setting, $x_n$ will correspond to a log pdf,
-which can have arbitrarily small values.
-The LogSumExp trick refers to the fact that
-$$
-  \log\sum_{n=1}^N \exp(x_n)
-  = x^\star + \log\sum_{n=1}^N \exp(x_n-x^\star)
-$$
-for any $x^\star$. Taking $x^\star = \max(x_1,\dots,x_N)$
-guarantees that $\exp(x_n-x^\star)\leq 1$,
-which makes the resulting operation more numerically stable.
-
-### Examples
-
-First an example where using the LogSumExp trick doesn't actually help,
-just to verify that we obtain the correct answer.
 
 ```{r setup}
 library(Rutils)
 ```
 
-```{r good_example}
-my_x = c(1:10)
-trick <- logsumexp(my_x)
-direct <- log(sum(exp(my_x)))
-print(paste("The correct answer is ", direct, " and the LogSumExp trick yields ", trick))
-```
-
-Now an example where the trick actually helps:
-
-```{r bad_example}
-my_x = c(-1e5,-1e12)
-trick <- logsumexp(my_x)
-direct <- log(sum(exp(my_x)))
-print(paste("The correct answer is ", trick, " but the naive method yields ", direct))
-```
-
-The naive computation doesn't work because both $\exp(-10^{5})$
-and $\exp(-10^{12})$ are smaller than the
-computer precision can represent, and so they are rounded down to 0.
-Added up they're still 0 and $\log 0$ results in $-\infty$.
-But the LogSumExp trick avoids this since
-$x^\star = -10^{5}$ and the sum terms become
-$\exp(-10^{5}+10^{5})=1$ and $\exp(-10^{12}+10^{5})$
-which is still represented as 0.
-The log of sum of exps is now 0,
-but to that we add $x^\star=-10^{5}$.
-Very large negative but not $-\infty$.
-
-
-Now a more realistic example where the trick also helps.
-Suppose we want to evaluate the log pdf of a mixture model
-with 10 elements in the mixture:
-$\log p(x) = \log(p_1(x)+\cdots+p_{10}(x))$,
-where $p_n(x)$ is the pdf of the $n$ th mixture element,
-which in our case is a N$(10n,0.1^2)$ distribution.
-Note that $p_n(x) = \exp\log p_n(x)$,
-which allows us to cast the problem in the LogSumExp trick format.
-Below we set $x=54$ and show that the naive method produces underflow
-while the LogSumExp trick does not.
-
-```{r real_example}
-# setup
-means <- 10*(1:10)
-sd <- 0.1
-test_x <- 54
-
-# calculate log pdfs
-lprbs <- rep(0,10)
-for(n in 1:10) lprbs[n] <- dnorm(test_x, mean = means[n], sd = sd, log = TRUE)
-
-# estimate log pdf of mixture model
-trick <- logsumexp(lprbs)
-direct <- log(sum(exp(lprbs)))
-print(paste("The LogSumExp trick yields ", trick, " but the naive method yields ", direct))
-```

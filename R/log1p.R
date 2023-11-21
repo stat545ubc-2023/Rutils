@@ -10,7 +10,7 @@
 #' # compare to naive approach:
 #' log(1+1e-20)
 #' @export
-log1p <- function(x){
+Log1p <- function(x){
   if(!is.numeric(x)) stop('x should be numeric, not ', class(x)[1])
   y <- 1+x
   z <- y-1

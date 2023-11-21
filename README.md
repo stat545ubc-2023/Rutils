@@ -25,6 +25,8 @@ devtools::install_github("stat545ubc-2023/Rutils")
 library(Rutils)
 ```
 
+### LogSumExp
+
 First an example where using the LogSumExp trick doesn’t actually help,
 just to verify that we obtain the correct answer.
 

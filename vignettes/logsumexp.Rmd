@@ -1,5 +1,5 @@
 ---
-title: "logsumexp"
+title: "logsumexp trick"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{logsumexp}

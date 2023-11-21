@@ -1,0 +1,71 @@
+---
+title: "log1p and expm1 operations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{logexp}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Rutils)
+```
+
+Two other operations that are common in machine learning research
+and prone to numerical instability are computing
+$\log(1+x)$ and $\exp(x)-1$ when $x$ is very small.
+`Rutils` provides numerically-stable implementations of these two functions.
+
+## Log1p
+
+Suppose that $x=10^{-20}$.
+This value is small but large enough to be represented in a computer.
+However, since in floating-point arithmetic the numbers
+we are able to represent in a computer are not evenly spaced,
+the number $1+x=1+10^{-20}$ will be represented as $1$.
+Hence naive computation of $\log(1+x)$
+will return $\log(1)=0$.
+The Log1p trick refers to the fact that, for small $x$,
+$\log(1+x)\approx x$.
+`Rutils::Log1p` checks if $x$ is too small for $1+x$ to be computed safely,
+and if it is then it approximates $\log(1+x)$ with $x$.
+See the example below:
+
+```{r}
+my_x <- 10^(-(10:20))
+print(Log1p(my_x))
+print(log(1+my_x))
+```
+
+For values of $x<10^{-16}$,
+the naive computation returns $0$ but `Log1p` returns $x>0$.
+Also note that `Log1p` is vectorized.
+
+
+## Expm1
+
+Again suppose that $x=10^{-20}$.
+Then the operation $\exp(x)$ will return $0$
+since the computer is not able to represent such a small number.
+But using a Taylor's expansion,
+$\exp(x)\approx 1+x$.
+Again, we can approximate $\exp(x)-1$ with $x$ for sufficiently small $x$,
+which `Rutils::Expm1` checks automatically.
+See the example below:
+
+```{r}
+my_x <- 10^(-(10:20))
+print(Expm1(my_x))
+print(exp(my_x)-1)
+```
+
+As before, for $x<10^{-16}$ the naive computation returns 0
+but `Expm1` returns $x>0$.
+The function `Expm1` is also vectorized.

@@ -6,7 +6,7 @@
 #'
 #' @return numeric, same size as x
 #' @examples
-#' log1p(1e-20)
+#' Log1p(1e-20)
 #' # compare to naive approach:
 #' log(1+1e-20)
 #' @export

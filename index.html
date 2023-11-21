@@ -65,14 +65,21 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>Rutils allows you to safely compute operations prone to numerical under or overflow in R.</p>
+<p><code>Rutils</code> allows you to safely compute operations prone to numerical under or overflow in <code>R</code>.</p>
+<p>If you are working in machine learning, it’s likely that you have come across operations like <span class="math inline">exp (<em>x</em>) − 1</span>, <span class="math inline">log (1+<em>x</em>)</span>, or <span class="math inline">log (exp(<em>x</em><sub>1</sub>)+exp(<em>x</em><sub>2</sub>))</span>. These operations are numerically unstable in many cases! If <span class="math inline"><em>x</em></span> is very small, the first two operations will return <span class="math inline">0</span> if done naively. If <span class="math inline"><em>x</em></span> is a large negative number, the last operation can diverge to <span class="math inline"> − ∞</span>. This can be avoided by careful computing, which <code>Rutils</code> does so that you don’t have to.</p>
+<p><strong>Why the name?</strong> Because many machine learning researchers usually have a separate <code>utils</code> script with these functions. <code>Rutils</code> sidesteps the need to create/copy/paste scripts across projects by simply importing this library.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of Rutils from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of <code>Rutils</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"stat545ubc-2023/Rutils"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<p>Check the main vignette, <code><a href="articles/Rutils.html">vignette("Rutils")</a></code>, for some examples! Additional documentation can be found on the vignettes of the main functions, <code><a href="articles/logsumexp.html">vignette("logsumexp")</a></code> and <code><a href="articles/logexp.html">vignette("logexp")</a></code>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

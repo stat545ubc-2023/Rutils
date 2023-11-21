@@ -6,5 +6,5 @@ testthat::test_that("Input has to be numeric",{
 testthat::test_that("Output behaves as expected",{
   testthat::expect_equal(0,Expm1(log(1))) # Expm1(log(1))=exp(0)-1=0
   testthat::expect_length(Expm1(1:100),100) # Expm1(vector) is vector of same size
-  testthat::expect_gt(Expm1(10^(-(10:15))),0) # handles small positive numbers
+  testthat::expect_gt(Expm1(1e-50),0) # handles small positive numbers
 })

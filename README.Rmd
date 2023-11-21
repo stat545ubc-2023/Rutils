@@ -18,15 +18,41 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-Rutils allows you to safely compute operations prone to 
-numerical under or overflow in R.
+`Rutils` allows you to safely compute operations prone to 
+numerical under or overflow in `R`.
+
+If you are working in machine learning,
+it's likely that you have come across
+operations like $\exp(x)-1$, $\log(1+x)$,
+or $\log(\exp(x_1)+\exp(x_2))$.
+These operations are numerically unstable in many cases!
+If $x$ is very small,
+the first two operations will return $0$ if done naively.
+If $x$ is a large negative number,
+the last operation can diverge to $-\infty$.
+This can be avoided by careful computing,
+which `Rutils` does so that you don't have to.
+
+**Why the name?**
+Because many machine learning researchers
+usually have a separate `utils` script
+with these functions.
+`Rutils` sidesteps the need to create/copy/paste
+scripts across projects by simply importing this library.
+
 
 ## Installation
 
-You can install the development version of Rutils from [GitHub](https://github.com/) with:
+You can install the development version of 
+`Rutils` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("stat545ubc-2023/Rutils")
 ```
 
+## Documentation
+
+Check the main vignette, `vignette("Rutils")`, for some examples!
+Additional documentation can be found on the vignettes of the main functions,
+`vignette("logsumexp")` and `vignette("logexp")`.
